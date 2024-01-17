@@ -1,7 +1,6 @@
-import { Locations } from "./interface/location";
-import { Character } from "./interface/charater";
-import { Episode } from "./interface/episode";
+import { Main } from "./interface/interfaces";
 
-// const urlRickAndMOrti = 'https://rickandmortyapi.com/api/episode';
+const urlRickAndMOrti = 'https://rickandmortyapi.com/api/episode';
+
 
 
