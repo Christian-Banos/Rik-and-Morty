@@ -7,16 +7,18 @@
 }
 
 body{
-    background-image: url(images/Fondos-de-pantalla-Rick-y-Morty-Wallpapers-gratistodo.com-1.png);
-    background-position-y: 9rem;
+    background-image: url(images/wallperFor.jpg);
+    background-position-y: -4rem;
     background-repeat: no-repeat;
     background-size: cover;
+    min-height: 100vh;
 }
+
 
 .header{
     min-width: 100%;
     max-height: 12rem;
-    background-color: var(--color-primary);
+    background: radial-gradient(#18039B  0%,  #010101 66%);
     text-align: center;
 }
 
@@ -30,6 +32,9 @@ body{
 }
 
 .aside{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     border: thin solid rgb(0, 0, 0);
     border-radius: 1rem 0 0 1rem;
     max-width: 20%;
@@ -60,10 +65,12 @@ body{
     padding: 0.5rem;
     cursor: pointer;
     transition: all 1s ease-out;
+    color: white;
 }
 .btnEpisode:hover{
     background-color: var(--color-primary);
     transition: all;
+    color: var(--color-black);
 }
 
 .section{
