@@ -17,14 +17,15 @@ async function printTitle(url: string){
     }
     
     episodes.forEach((e) => {
-      // episodeList?.insertAdjacentHTML('beforeend', `<buttom>${e.name}</buttom>`);
-      // console.log(e.name);
-      episodeList.classList.add('nameEpisodes');
-      const btnListEpisodes = document.createElement('button');
-      btnListEpisodes.classList.add('btnEpisode');
-      btnListEpisodes.textContent = e.name;
-      episodeList.appendChild(btnListEpisodes);
-    })
+       episodeList?.insertAdjacentHTML('beforeend', `<button id="episode${e.episode}" episodeUrl="${e.url}">${e.name}</button>`);
+      // episodeList.classList.add('nameEpisodes');
+      // const btnListEpisodes = document.createElement('button');
+      // btnListEpisodes.classList.add('btnEpisode');
+      // btnListEpisodes.textContent = e.name;
+      // episodeList.appendChild(btnListEpisodes);
+      const clickEpisode = document.getElementById(`episode${e.episode}`) as HTMLElement;
+      clickEpisode.addEventListener('click', displayElementInfo);
+    });
 
     const NewEpisodes = JsonData.info.next;
 
@@ -43,6 +44,29 @@ async function printTitle(url: string){
   }
 
 }
+
+/* Click Display Episodes */
+async function displayElementInfo(click:MouseEvent) {
+  const target = click.target as HTMLButtonElement;
+  const urlEpisode = target.getAttribute("episodeUrl")!;
+  console.log(urlEpisode);
+  
+  const data = await fetch(urlEpisode);
+  const EpisodeInfo: Episode = await data.json();
+
+  console.log(EpisodeInfo);  
+
+  const displayEpisodeInfo = `
+    <p>${EpisodeInfo.name}</p>
+    <p>${EpisodeInfo.air_date}</p>
+    <p>${EpisodeInfo.episode}</p>
+  `;
+  const printDisplayEpisode = document.getElementById('printDisplayEpisode') as HTMLDivElement;
+  // printDisplayEpisode.innerHTML = ''; //para borrar el contenedro
+  printDisplayEpisode.innerHTML =  displayEpisodeInfo;
+} 
+
+
 
 
 // const urlRickAndMOrti = "https://rickandmortyapi.com/api/episode";

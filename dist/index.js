@@ -21,11 +21,9 @@ function printTitle(url) {
                 throw new Error(`HTTP error! Status: ${data.status}`);
             }
             episodes.forEach((e) => {
-                episodeList.classList.add('nameEpisodes');
-                const btnListEpisodes = document.createElement('button');
-                btnListEpisodes.classList.add('btnEpisode');
-                btnListEpisodes.textContent = e.name;
-                episodeList.appendChild(btnListEpisodes);
+                episodeList === null || episodeList === void 0 ? void 0 : episodeList.insertAdjacentHTML('beforeend', `<button id="episode${e.episode}" episodeUrl="${e.url}">${e.name}</button>`);
+                const clickEpisode = document.getElementById(`episode${e.episode}`);
+                clickEpisode.addEventListener('click', displayElementInfo);
             });
             const NewEpisodes = JsonData.info.next;
             if (NewEpisodes) {
@@ -41,6 +39,23 @@ function printTitle(url) {
             console.error('Error featching data: ', error);
             throw Error;
         }
+    });
+}
+function displayElementInfo(click) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const target = click.target;
+        const urlEpisode = target.getAttribute("episodeUrl");
+        console.log(urlEpisode);
+        const data = yield fetch(urlEpisode);
+        const EpisodeInfo = yield data.json();
+        console.log(EpisodeInfo);
+        const displayEpisodeInfo = `
+    <p>${EpisodeInfo.name}</p>
+    <p>${EpisodeInfo.air_date}</p>
+    <p>${EpisodeInfo.episode}</p>
+  `;
+        const printDisplayEpisode = document.getElementById('printDisplayEpisode');
+        printDisplayEpisode.innerHTML = displayEpisodeInfo;
     });
 }
 export {};
