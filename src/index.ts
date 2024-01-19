@@ -1,69 +1,114 @@
 import { Main, Info, Episode } from "./interface/interfaces";
 
-const urlRickAndMOrti = "https://rickandmortyapi.com/api/episode";
+const episodeList = document.getElementById('nameEpisodes') as HTMLButtonElement;
+const nextBtn = document.getElementById('nextBtn') as HTMLButtonElement;
 
-async function getEpisodes(): Promise<Main> {
+const urlRM = "https://rickandmortyapi.com/api/episode";
+printTitle(urlRM);
+
+async function printTitle(url: string){
   try {
-    const infoApi = await fetch(urlRickAndMOrti);
-    const data: Main = await infoApi.json();
-    const episodes: Episode[] = data.results;
+    const data = await fetch(urlRM);
+    const JsonData: Main = await data.json();
+    const episodes: Episode[] = JsonData.results;
+    
+    if(!data.ok){
+      throw new Error(`HTTP error! Status: ${data.status}`);
+    }
+    
+    episodes.forEach((e) => {
+      // episodeList?.insertAdjacentHTML('beforeend', `<buttom>${e.name}</buttom>`);
+      // console.log(e.name);
+      episodeList.classList.add('nameEpisodes');
+      const btnListEpisodes = document.createElement('button');
+      btnListEpisodes.classList.add('btnEpisode');
+      btnListEpisodes.textContent = e.name;
+      episodeList.appendChild(btnListEpisodes);
+    })
 
-    episodes.forEach((episode) => {
-      const container = document.querySelector(
-        "#nameEpisodes"
-      ) as HTMLButtonElement;
-      container.classList.add("nameEpisodes");
-      const btnEpisode = document.createElement("button");
-      btnEpisode.classList.add("btnEpisode");
-      btnEpisode.textContent = episode.name;
-      container?.appendChild(btnEpisode);
-    });
-    return data;
+    const NewEpisodes = JsonData.info.next;
+
+    if (NewEpisodes) {
+      nextBtn.addEventListener('click', () => {
+          printTitle(NewEpisodes); //question
+      }, { once: true });
+  } else {
+      nextBtn.remove();
+  }
+
+
   } catch (error) {
-    console.error("Error fetching data: ", error);
+    console.error('Error featching data: ', error);
     throw Error;
   }
-}
-getEpisodes().then((res) => {
-  //return of the last function
 
-  // newsEpisodes.forEach((resEpisode) => {
-
-  // })
-
-  getMoreEpisodes(res);
-});
-//btn
-
-function getMoreEpisodes(res: Main): void {
-  const btnMore = document.querySelector("#btnMore") as HTMLButtonElement;
-  let checkEvent: Boolean = true;
-  btnMore.addEventListener("click", async () => {
-    if (checkEvent) {
-      checkEvent = false;
-      printNewEpisodes(res);
-    } else {
-    }
-  });
 }
 
-async function printNewEpisodes(res: Main) {
-  try {
-    if (res.info.next) {
-        const response = await fetch(res.info.next);
-        const data: Main = await response.json();
-        const NewEpisodes: Episode[] = data.results;
-    
-        NewEpisodes.forEach((episode) => {
-          const container = document.querySelector("#nameEpisodes") as HTMLButtonElement;
-          container.classList.add("nameEpisodes");
-          const btnEpisode = document.createElement("button");
-          btnEpisode.classList.add("btnEpisode");
-          btnEpisode.textContent = episode.name;
-          container.appendChild(btnEpisode);
-        });
-    }
-  } catch (error) {
-    throw new Error("Error");
-  }
-}
+
+// const urlRickAndMOrti = "https://rickandmortyapi.com/api/episode";
+
+// async function getEpisodes(): Promise<Main> {
+//   try {
+//     const infoApi = await fetch(urlRickAndMOrti);
+//     const data: Main = await infoApi.json();
+//     const episodes: Episode[] = data.results;
+
+//     episodes.forEach((episode) => {
+//       const container = document.querySelector(
+//         "#nameEpisodes"
+//       ) as HTMLButtonElement;
+//       container.classList.add("nameEpisodes");
+//       const btnEpisode = document.createElement("button");
+//       btnEpisode.classList.add("btnEpisode");
+//       btnEpisode.textContent = episode.name;
+//       container?.appendChild(btnEpisode);
+//     });
+//     return data;
+//   } catch (error) {
+//     console.error("Error fetching data: ", error);
+//     throw Error;
+//   }
+// }
+// getEpisodes()
+//     .then((res) => {
+//   //return of the last function
+//   getMoreEpisodes(res);
+//     })
+//     .then((res) => {
+
+//     })
+
+// //btn
+
+// function getMoreEpisodes(res: Main): void {
+//   const btnMore = document.querySelector("#btnMore") as HTMLButtonElement;
+//   let checkEvent: Boolean = true;
+//   btnMore.addEventListener("click", async () => {
+//     if (checkEvent) {
+//       checkEvent = false;
+//       printNewEpisodes(res);
+//     } else {
+//     }
+//   });
+// }
+
+// async function printNewEpisodes(res: Main): Promise<Main> {
+//   try {
+//     const response = await fetch(res.info.next);
+//     const data: Main = await response.json();
+//     const NewEpisodes: Episode[] = data.results;
+
+//     NewEpisodes.forEach((episode) => {
+//       const container = document.querySelector("#nameEpisodes") as HTMLButtonElement;
+//       container.classList.add("nameEpisodes");
+//       const btnEpisode = document.createElement("button");
+//       btnEpisode.classList.add("btnEpisode");
+//       btnEpisode.textContent = episode.name;
+//       container.appendChild(btnEpisode);
+//     });
+//     return data;
+//   } catch (error) {
+//     throw new Error("Error");
+//   }
+// }
+

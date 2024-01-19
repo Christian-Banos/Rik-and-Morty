@@ -7,63 +7,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const urlRickAndMOrti = "https://rickandmortyapi.com/api/episode";
-function getEpisodes() {
+const episodeList = document.getElementById('nameEpisodes');
+const nextBtn = document.getElementById('nextBtn');
+const urlRM = "https://rickandmortyapi.com/api/episode";
+printTitle(urlRM);
+function printTitle(url) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const infoApi = yield fetch(urlRickAndMOrti);
-            const data = yield infoApi.json();
-            const episodes = data.results;
-            episodes.forEach((episode) => {
-                const container = document.querySelector("#nameEpisodes");
-                container.classList.add("nameEpisodes");
-                const btnEpisode = document.createElement("button");
-                btnEpisode.classList.add("btnEpisode");
-                btnEpisode.textContent = episode.name;
-                container === null || container === void 0 ? void 0 : container.appendChild(btnEpisode);
+            const data = yield fetch(urlRM);
+            const JsonData = yield data.json();
+            const episodes = JsonData.results;
+            if (!data.ok) {
+                throw new Error(`HTTP error! Status: ${data.status}`);
+            }
+            episodes.forEach((e) => {
+                episodeList.classList.add('nameEpisodes');
+                const btnListEpisodes = document.createElement('button');
+                btnListEpisodes.classList.add('btnEpisode');
+                btnListEpisodes.textContent = e.name;
+                episodeList.appendChild(btnListEpisodes);
             });
-            return data;
-        }
-        catch (error) {
-            console.error("Error fetching data: ", error);
-            throw Error;
-        }
-    });
-}
-getEpisodes().then((res) => {
-    getMoreEpisodes(res);
-});
-function getMoreEpisodes(res) {
-    const btnMore = document.querySelector("#btnMore");
-    let checkEvent = true;
-    btnMore.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
-        if (checkEvent) {
-            checkEvent = false;
-            printNewEpisodes(res);
-        }
-        else {
-        }
-    }));
-}
-function printNewEpisodes(res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            if (res.info.next) {
-                const response = yield fetch(res.info.next);
-                const data = yield response.json();
-                const NewEpisodes = data.results;
-                NewEpisodes.forEach((episode) => {
-                    const container = document.querySelector("#nameEpisodes");
-                    container.classList.add("nameEpisodes");
-                    const btnEpisode = document.createElement("button");
-                    btnEpisode.classList.add("btnEpisode");
-                    btnEpisode.textContent = episode.name;
-                    container.appendChild(btnEpisode);
-                });
+            const NewEpisodes = JsonData.info.next;
+            if (NewEpisodes) {
+                nextBtn.addEventListener('click', () => {
+                    printTitle(NewEpisodes);
+                }, { once: true });
+            }
+            else {
+                nextBtn.remove();
             }
         }
         catch (error) {
-            throw new Error("Error");
+            console.error('Error featching data: ', error);
+            throw Error;
         }
     });
 }
