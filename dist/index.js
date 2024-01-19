@@ -47,15 +47,28 @@ function displayElementInfo(click) {
         const urlEpisode = target.getAttribute("episodeUrl");
         console.log(urlEpisode);
         const data = yield fetch(urlEpisode);
-        const EpisodeInfo = yield data.json();
-        console.log(EpisodeInfo);
-        const displayEpisodeInfo = `
-    <p>${EpisodeInfo.name}</p>
-    <p>${EpisodeInfo.air_date}</p>
-    <p>${EpisodeInfo.episode}</p>
+        const episodeInfo = yield data.json();
+        console.log(episodeInfo);
+        const displayepisodeInfo = `
+    <p>${episodeInfo.name}</p>
+    <p>${episodeInfo.air_date}</p>
+    <p>${episodeInfo.episode}</p>
   `;
         const printDisplayEpisode = document.getElementById('printDisplayEpisode');
-        printDisplayEpisode.innerHTML = displayEpisodeInfo;
+        printDisplayEpisode.innerHTML = displayepisodeInfo;
+        const characters = episodeInfo.characters;
+        characters.forEach((urlCharacters) => __awaiter(this, void 0, void 0, function* () {
+            const data = yield fetch(urlCharacters);
+            const characterInfo = yield data.json();
+            const displayCharacterInfo = `
+    <p>${characterInfo.name}</p>
+    <p>${characterInfo.id}</p>
+    <p>${characterInfo.status}</p>
+    <p>${characterInfo.species}</p>
+    <p>${characterInfo.gender}</p>
+    <img src="${characterInfo.image}">`;
+            printDisplayEpisode.insertAdjacentHTML("beforeend", displayCharacterInfo);
+        }));
     });
 }
 export {};

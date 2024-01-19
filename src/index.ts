@@ -1,4 +1,4 @@
-import { Main, Info, Episode } from "./interface/interfaces";
+import { Main, Info, Episode, Character } from "./interface/interfaces";
 
 const episodeList = document.getElementById('nameEpisodes') as HTMLButtonElement;
 const nextBtn = document.getElementById('nextBtn') as HTMLButtonElement;
@@ -52,18 +52,32 @@ async function displayElementInfo(click:MouseEvent) {
   console.log(urlEpisode);
   
   const data = await fetch(urlEpisode);
-  const EpisodeInfo: Episode = await data.json();
+  const episodeInfo: Episode = await data.json();
 
-  console.log(EpisodeInfo);  
+  console.log(episodeInfo);  
 
-  const displayEpisodeInfo = `
-    <p>${EpisodeInfo.name}</p>
-    <p>${EpisodeInfo.air_date}</p>
-    <p>${EpisodeInfo.episode}</p>
+  const displayepisodeInfo = `
+    <p>${episodeInfo.name}</p>
+    <p>${episodeInfo.air_date}</p>
+    <p>${episodeInfo.episode}</p>
   `;
   const printDisplayEpisode = document.getElementById('printDisplayEpisode') as HTMLDivElement;
   // printDisplayEpisode.innerHTML = ''; //para borrar el contenedro
-  printDisplayEpisode.innerHTML =  displayEpisodeInfo;
+  printDisplayEpisode.innerHTML =  displayepisodeInfo;
+  const characters = episodeInfo.characters;
+  characters.forEach(async urlCharacters => {
+    const data = await fetch(urlCharacters);
+    const characterInfo: Character = await data.json();
+    const displayCharacterInfo = `
+    <p>${characterInfo.name}</p>
+    <p>${characterInfo.id}</p>
+    <p>${characterInfo.status}</p>
+    <p>${characterInfo.species}</p>
+    <p>${characterInfo.gender}</p>
+    <img src="${characterInfo.image}">`
+    printDisplayEpisode.insertAdjacentHTML("beforeend", displayCharacterInfo);
+  });
+  
 } 
 
 
