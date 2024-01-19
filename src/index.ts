@@ -17,7 +17,7 @@ async function printTitle(url: string){
     }
     
     episodes.forEach((e) => {
-       episodeList?.insertAdjacentHTML('beforeend', `<button id="episode${e.episode}" episodeUrl="${e.url}">${e.name}</button>`);
+       episodeList?.insertAdjacentHTML('beforeend', `<button id="episode${e.episode}" episodeUrl="${e.url}" class="btnEpisode">${e.name}</button>`);
       // episodeList.classList.add('nameEpisodes');
       // const btnListEpisodes = document.createElement('button');
       // btnListEpisodes.classList.add('btnEpisode');
@@ -48,8 +48,8 @@ async function printTitle(url: string){
 /* Click Display Episodes */
 async function displayElementInfo(click:MouseEvent) {
   const target = click.target as HTMLButtonElement;
-  const urlEpisode = target.getAttribute("episodeUrl")!;
-  console.log(urlEpisode);
+  const urlEpisode = target.getAttribute("episodeUrl")!; //question
+  console.log('getTarget', urlEpisode);
   
   const data = await fetch(urlEpisode);
   const episodeInfo: Episode = await data.json();
@@ -57,11 +57,13 @@ async function displayElementInfo(click:MouseEvent) {
   console.log(episodeInfo);  
 
   const displayepisodeInfo = `
+    <div class="displayepisodeInfo">
     <p>${episodeInfo.name}</p>
     <p>${episodeInfo.air_date}</p>
     <p>${episodeInfo.episode}</p>
+    </div>
   `;
-  const printDisplayEpisode = document.getElementById('printDisplayEpisode') as HTMLDivElement;
+  const printDisplayEpisode = document.getElementById('displayCharacterInfo') as HTMLDivElement;
   // printDisplayEpisode.innerHTML = ''; //para borrar el contenedro
   printDisplayEpisode.innerHTML =  displayepisodeInfo;
   const characters = episodeInfo.characters;
@@ -69,12 +71,14 @@ async function displayElementInfo(click:MouseEvent) {
     const data = await fetch(urlCharacters);
     const characterInfo: Character = await data.json();
     const displayCharacterInfo = `
-    <p>${characterInfo.name}</p>
-    <p>${characterInfo.id}</p>
-    <p>${characterInfo.status}</p>
-    <p>${characterInfo.species}</p>
-    <p>${characterInfo.gender}</p>
-    <img src="${characterInfo.image}">`
+      <div class="card">
+        <img src="${characterInfo.image}">
+        <p><b>Name:</b> ${characterInfo.name}</p>
+        <p><b>Id:</b> ${characterInfo.id}</p>
+        <p><b>Status:</b> ${characterInfo.status}</p>
+        <p><b>Specie:</b> ${characterInfo.species}</p>
+        <p><b>Gender:</b> ${characterInfo.gender}</p>
+      </div>`
     printDisplayEpisode.insertAdjacentHTML("beforeend", displayCharacterInfo);
   });
   
