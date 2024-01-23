@@ -21,7 +21,7 @@ function printTitle(url) {
                 throw new Error(`HTTP error! Status: ${data.status}`);
             }
             episodes.forEach((e) => {
-                episodeList === null || episodeList === void 0 ? void 0 : episodeList.insertAdjacentHTML('beforeend', `<button id="episode${e.episode}" episodeUrl="${e.url}" class="btnEpisode">${e.name}</button>`);
+                episodeList === null || episodeList === void 0 ? void 0 : episodeList.insertAdjacentHTML('beforeend', `<button id="episode${e.episode}" episodeUrl="${e.url}" class="btnEpisode ">${e.name}</button>`);
                 const clickEpisode = document.getElementById(`episode${e.episode}`);
                 clickEpisode.addEventListener('click', displayElementInfo);
             });
@@ -51,9 +51,9 @@ function displayElementInfo(click) {
         console.log(episodeInfo);
         const displayepisodeInfo = `
     <div class="displayepisodeInfo">
-    <p>${episodeInfo.name}</p>
-    <p>${episodeInfo.air_date}</p>
-    <p>${episodeInfo.episode}</p>
+    <p">${episodeInfo.name}</p>
+    <p">${episodeInfo.air_date}</p>
+    <p">${episodeInfo.episode}</p>
     </div>
   `;
         const printDisplayEpisode = document.getElementById('displayCharacterInfo');
@@ -75,5 +75,21 @@ function displayElementInfo(click) {
         }));
     });
 }
+document.addEventListener('DOMContentLoaded', function () {
+    const dropdownBtn = document.getElementById('dropdownBtn');
+    const dropdownContent = document.getElementById('nameEpisodes');
+    dropdownBtn.addEventListener('click', function () {
+        if (window.innerWidth <= 425) {
+            dropdownContent.classList.toggle('show');
+        }
+    });
+    window.addEventListener('click', function (event) {
+        if (!event.target.matches('#dropdownBtn')) {
+            if (window.innerWidth <= 425 && dropdownContent.classList.contains('show')) {
+                dropdownContent.classList.remove('show');
+            }
+        }
+    });
+});
 export {};
 //# sourceMappingURL=index.js.map

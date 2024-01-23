@@ -6,14 +6,6 @@
   list-style: none;
 }
 
-body {
-  /* background-image: url(images/wallperFor.jpg);
-  background-position-y: -4rem;
-  background-repeat: no-repeat;
-  background-size: cover; */
-  /* min-height: 100vh; */
-}
-
 .header {
   min-width: 100%;
   max-height: 12rem;
@@ -179,4 +171,60 @@ footer img{
 
 p {
     margin: 0;
+}
+
+.btnUp{
+  display: none;
+}
+
+/* Mobili L  */
+@media screen  and (max-width: 425px){
+
+  .header img{
+   max-width: 14rem;
+  }
+  .main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .aside{
+    overflow: auto;
+    max-width: 80%;
+    border-radius: 1rem;
+  }
+
+  .nameEpisodes {
+    display: none;
+}
+
+#dropdownBtn{
+  min-width: 10rem;
+  min-height: 5rem;
+  border-radius: 1rem;
+}
+
+.nameEpisodes.show {
+    display: block;
+}
+
+.nextBtn{
+  display: none;
+}
+
+.btnUp{
+  display: block;
+  max-width: 5rem;
+  min-height: 2rem;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 1rem;
+  left: 24rem;
+}
+
+.btnUp a{
+  text-decoration: none;
+}
+
 }

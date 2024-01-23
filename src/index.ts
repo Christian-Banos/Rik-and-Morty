@@ -17,7 +17,7 @@ async function printTitle(url: string){
     }
     
     episodes.forEach((e) => {
-       episodeList?.insertAdjacentHTML('beforeend', `<button id="episode${e.episode}" episodeUrl="${e.url}" class="btnEpisode">${e.name}</button>`);
+       episodeList?.insertAdjacentHTML('beforeend', `<button id="episode${e.episode}" episodeUrl="${e.url}" class="btnEpisode ">${e.name}</button>`);
       // episodeList.classList.add('nameEpisodes');
       // const btnListEpisodes = document.createElement('button');
       // btnListEpisodes.classList.add('btnEpisode');
@@ -58,9 +58,9 @@ async function displayElementInfo(click:MouseEvent) {
 
   const displayepisodeInfo = `
     <div class="displayepisodeInfo">
-    <p>${episodeInfo.name}</p>
-    <p>${episodeInfo.air_date}</p>
-    <p>${episodeInfo.episode}</p>
+    <p">${episodeInfo.name}</p>
+    <p">${episodeInfo.air_date}</p>
+    <p">${episodeInfo.episode}</p>
     </div>
   `;
   const printDisplayEpisode = document.getElementById('displayCharacterInfo') as HTMLDivElement;
@@ -83,6 +83,28 @@ async function displayElementInfo(click:MouseEvent) {
   });
   
 } 
+
+/* ---------------- */
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdownBtn = document.getElementById('dropdownBtn') as HTMLLegendElement;
+  const dropdownContent = document.getElementById('nameEpisodes') as HTMLElement;
+
+  dropdownBtn.addEventListener('click', function() {
+      if (window.innerWidth <= 425) {
+          dropdownContent.classList.toggle('show');
+      }
+  });
+
+  window.addEventListener('click', function(event) {
+    if (!(event.target as Element).matches('#dropdownBtn')) {
+          if (window.innerWidth <= 425 && dropdownContent.classList.contains('show')) {
+              dropdownContent.classList.remove('show');
+          }
+      }
+  });
+});
+
+/* -------- */
 
 
 

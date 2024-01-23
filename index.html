@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rick and Morty</title>
     <link rel="stylesheet" href="style.css">
-</head>
+   </head>
 <body>
     <header>
         <div class="header">
@@ -14,8 +14,9 @@
     </header>
 
     <main class="main">
-        <aside class="aside">
-            <ul id="nameEpisodes" class="nameEpisodes">
+        <aside class="aside dropdown">
+            <button id="dropdownBtn">Episodes</button>
+            <ul id="nameEpisodes" class="nameEpisodes dropdown-content">
 
             </ul>
             <button id="nextBtn" class="nextBtn">more</button>
@@ -25,6 +26,10 @@
             
             <div class="displayCharacterInfo" id="displayCharacterInfo"></div>
         </section>
+
+        <button type="button" class="btnUp">
+            <a href="#dropdownBtn">🔼</a>
+        </button>
     </main>
 
     <footer class="footerApi">
